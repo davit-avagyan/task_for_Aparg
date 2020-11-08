@@ -1,6 +1,10 @@
 <?php
 
+namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +18,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/register');
 });
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+
+    $allUsers = (new UsersController)->allUsers();
+
+    return view('dashboard')->with('allUsers', $allUsers);
+
+})->name('dashboard');
